@@ -23,8 +23,8 @@ public class Main {
 		JGraph graph = new JGraph("Temperature", 0, 0, 750, 850);
 		graph.setBorder(2);
 		
-		for(int x = -20; x < 20; x++){
-			int y = (int) (Math.pow((x), 2));
+		for(float x = -20; x < 20; x+=0.1f){
+			float y = (float) (Math.pow((x), 2));
 			for(int i = 0; i < 3; i++){
 				graph.addPoint(i, x-i, y);
 			}

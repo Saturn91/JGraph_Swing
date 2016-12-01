@@ -3,7 +3,6 @@ package main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -48,7 +47,7 @@ public class JGraph extends JPanel{
 		setBounds(x, y, width, height);
 	}
 
-	public void drawGraph(int id, Graphics g){
+	private void drawGraph(int id, Graphics g){
 		if(points[id].size() > 1){
 			for(int i = 0; i < points[id].size(); i++){
 				//if there are more than 1 Point and the lines are in range of the graph -> draw Graph
@@ -66,11 +65,11 @@ public class JGraph extends JPanel{
 	}
 
 	private int getGraphY(float y){
-		return (int) (height - ((y- (float) minValueY)*(height-2*border))/(maxValueY - minValueY)) - border;
+		return (int) (height - ((y- (float) minValueY)* (float) (height-2*border))/ (float)(maxValueY - minValueY)) - border;
 	}
 
 	private int getGraphX(float x){
-		return (int) (((x-(float) minValueX)*(width-2*border))/(maxValueX - minValueX)) + border;	
+		return (int) (((x-(float) minValueX)*(float)(width-2*border))/ (float)(maxValueX - minValueX)) + border;	
 	}
 
 	public void paint(Graphics g){		//gets called automaticly!
@@ -144,7 +143,7 @@ public class JGraph extends JPanel{
 		}
 	}
 
-	public boolean addPoint(int id, int x, int y){
+	public boolean addPoint(int id, float x, float y){
 		if(id < 16){
 			if(points[id] == null){
 				points[id] = new ArrayList<Point>();
