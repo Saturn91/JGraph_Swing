@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -26,8 +27,9 @@ public class JGraph extends JPanel{
 
 	private int ArrowSize = 10;
 
-	private ArrayList<Point>[] points = new ArrayList[16];
-	private String[] graphNames = new String[16];
+	private int maxGraphs = 16;
+	private List<ArrayList<Point>> points = new ArrayList<ArrayList<Point>>();
+	private String[] graphNames = new String[maxGraphs];
 
 	private int titleTextSize = 25;
 	private int graphNameTextSize = 20;
@@ -45,17 +47,23 @@ public class JGraph extends JPanel{
 		this.height = height;
 		this.width = width;
 		setBounds(x, y, width, height);
+		initPointLists();
+	}
+	
+	private void initPointLists(){
+		for(int i = 0; i < maxGraphs; i++){
+			points.add(new ArrayList<Point>());
+		}
 	}
 
 	private void drawGraph(int id, Graphics g){
-		if(points[id].size() > 1){
-			for(int i = 0; i < points[id].size(); i++){
-				System.out.println("JGraph: drawGraph: id=" + id +" size =" + points[id].size() + ", i=" + i);
+		if(points.get(id).size() > 1){
+			for(int i = 0; i < points.get(id).size(); i++){
 				//if there are more than 1 Point and the lines are in range of the graph -> draw Graph
-				if(i < points[id].size()-1 && points[id].get(i+1).x >= minValueX && points[id].get(i+1).y >= minValueY 
-						&& points[id].get(i).x <= maxValueX && points[id].get(i-1).y <= maxValueY){
-					Point startPoint = points[id].get(i);
-					Point endPoint = points[id].get(i+1);
+				if(i < points.get(id).size()-1 && points.get(id).get(i+1).x >= minValueX && points.get(id).get(i+1).y >= minValueY 
+						&& points.get(id).get(i).x <= maxValueX && points.get(id).get(i).y <= maxValueY){
+					Point startPoint = points.get(id).get(i);
+					Point endPoint = points.get(id).get(i+1);
 					g.drawLine(
 							getGraphX(startPoint.x),
 							getGraphY(startPoint.y),
@@ -95,8 +103,8 @@ public class JGraph extends JPanel{
 		g.setColor(Color.red);
 		int graphCounter = 0;
 		g.setFont(new Font("TimesRoman", Font.PLAIN, graphNameTextSize));
-		for(int i = 0; i < points.length; i++){
-			if(points[i] != null){
+		for(int i = 0; i < points.size(); i++){
+			if(points.get(i).size() != 0){
 				graphCounter++;
 				g.setColor(getColorID(i));
 				if(graphNames[i] == null){
@@ -105,7 +113,6 @@ public class JGraph extends JPanel{
 					g.drawString(graphNames[i], width-graphTextsBorder, border/2*(1+graphCounter)+border/2);
 				}
 				drawGraph(i, g);
-
 			}			
 		}
 
@@ -159,28 +166,22 @@ public class JGraph extends JPanel{
 
 	public boolean addPoint(int id, float x, float y){
 		repaint = true;
-		if(id < 16){
-			if(points[id] == null){
-				points[id] = new ArrayList<Point>();
-			}
-			points[id].add(new Point(x, y));
+		if(id < maxGraphs){
+			points.get(id).add(new Point(x, y));
 			return true;
 		}else{
-			System.err.println("com.saturn91.JGraph: addPoints: you can only add 16 Graphs (id=0...15)");
+			System.err.println("com.saturn91.JGraph: addPoints: you can only add " +maxGraphs + " Graphs (id=0..." + (maxGraphs-1)+ ")");
 			return false;
 		}
 
 	}
 
 	public boolean setPointList(int id, ArrayList<Float> x, ArrayList<Float> y){
-		if(points[id]==null){
-			points[id] = new ArrayList<Point>();
-		}
 		repaint = true;
-		points[id].clear();
+		points.get(id).clear();
 		if(x.size() == y.size()){
 			for(int i = 0; i < x.size(); i++){
-				points[id].add(new Point(x.get(i), y.get(i)));
+				points.get(id).add(new Point(x.get(i), y.get(i)));
 			}
 			return true;
 		}else{
@@ -195,7 +196,7 @@ public class JGraph extends JPanel{
 			graphNames[id] = name;
 			return true;
 		}else{
-			System.err.println("com.saturn91.JGraph addGraphName: you can only add 16 Graphs (id=0...15)");
+			System.err.println("com.saturn91.JGraph addGraphName: you can only add " +maxGraphs + " Graphs (id=0..." + (maxGraphs-1)+ ")");
 			return false;
 		}
 
