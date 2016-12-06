@@ -22,7 +22,7 @@ public class Main {
 		
 		JGraph graph = new JGraph("Temperature", 0, 0, 750, 850);
 		
-		for(float x = -20; x < 2; x+=0.1f){
+		/*for(float x = -20; x < 2; x+=0.1f){
 			float y = (float) (Math.pow((x), 2));
 			for(int i = 0; i < 3; i++){
 				graph.addPoint(i, x-i, y);
@@ -30,7 +30,7 @@ public class Main {
 			graph.addPoint(10, x-10, y);
 			
 			
-		}
+		}*/
 		
 		frame.add(graph);
 		

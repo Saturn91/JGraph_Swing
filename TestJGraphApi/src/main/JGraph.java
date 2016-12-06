@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import main.Point;
-
 public class JGraph extends JPanel{
 
 	private int x;
@@ -52,17 +50,19 @@ public class JGraph extends JPanel{
 	private void drawGraph(int id, Graphics g){
 		if(points[id].size() > 1){
 			for(int i = 0; i < points[id].size(); i++){
+				System.out.println("JGraph: drawGraph: id=" + id +" size =" + points[id].size() + ", i=" + i);
 				//if there are more than 1 Point and the lines are in range of the graph -> draw Graph
-				if(i > 0 && points[id].get(i).x >= minValueX && points[id].get(i).y >= minValueY 
-						&& points[id].get(i-1).x <= maxValueX && points[id].get(i-1).y <= maxValueY
-						){
+				if(i < points[id].size()-1 && points[id].get(i+1).x >= minValueX && points[id].get(i+1).y >= minValueY 
+						&& points[id].get(i).x <= maxValueX && points[id].get(i-1).y <= maxValueY){
+					Point startPoint = points[id].get(i);
+					Point endPoint = points[id].get(i+1);
 					g.drawLine(
-							getGraphX(points[id].get(i-1).x),
-							getGraphY(points[id].get(i-1).y),
-							getGraphX(points[id].get(i).x),
-							getGraphY(points[id].get(i).y)); 
-				}			
-			}	
+							getGraphX(startPoint.x),
+							getGraphY(startPoint.y),
+							getGraphX(endPoint.x),
+							getGraphY(endPoint.y)); 
+				}
+			}
 		}
 	}
 
@@ -173,6 +173,9 @@ public class JGraph extends JPanel{
 	}
 
 	public boolean setPointList(int id, ArrayList<Float> x, ArrayList<Float> y){
+		if(points[id]==null){
+			points[id] = new ArrayList<Point>();
+		}
 		repaint = true;
 		points[id].clear();
 		if(x.size() == y.size()){
