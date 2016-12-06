@@ -39,6 +39,10 @@ public class JGraph extends JPanel{
 
 	private int xSeperator = 10;
 	private int ySeperator = 50;
+	
+	private boolean showGrid = true;
+	private int dotSize = 4;
+	private boolean showDots = true;
 
 	public JGraph(String name, int x, int y, int width, int height) {
 		this.name = name;
@@ -69,6 +73,9 @@ public class JGraph extends JPanel{
 							getGraphY(startPoint.y),
 							getGraphX(endPoint.x),
 							getGraphY(endPoint.y)); 
+					if(showDots){
+						g.fillOval(getGraphX(startPoint.x)-dotSize/2, getGraphY(startPoint.y)-dotSize/2, dotSize, dotSize);
+					}
 				}
 			}
 		}
@@ -149,6 +156,13 @@ public class JGraph extends JPanel{
 	private void drawYIndicators(Graphics g) {
 		float deltaY = ((float) (maxValueY-minValueY)/ (float)(ySeperator));		
 		for(int i = 0; i < ySeperator+1; i++){
+			//draw Grid
+			if(showGrid){
+				g.setColor(new Color(225, 225, 225));
+				g.drawLine(getGraphX(minValueX), getGraphY(deltaY*i+minValueY), getGraphX(maxValueX), getGraphY(deltaY*i+minValueY));
+				g.setColor(Color.black);
+			}
+			//Draw Indicators
 			g.drawLine(getGraphX(minValueX)-3, getGraphY(deltaY*i+minValueY), getGraphX(minValueX)+3, getGraphY(deltaY*i+minValueY));
 			float num = Math.round((i*deltaY+minValueY)*10.0f)/10.0f;
 			g.drawString(""+num, getGraphX(minValueX)-40, getGraphY(deltaY*i+minValueY));
@@ -158,6 +172,13 @@ public class JGraph extends JPanel{
 	private void drawXIndicators(Graphics g) {
 		float deltaX = ((float) (maxValueX-minValueX)/ (float)(xSeperator));
 		for(int i = 0; i < xSeperator+1; i++){
+			//draw Grid
+			if(showGrid){
+				g.setColor(new Color(225, 225, 225));
+				g.drawLine(getGraphX(i*deltaX+minValueX), getGraphY(minValueY), getGraphX(i*deltaX+minValueX), getGraphY(maxValueY));
+				g.setColor(Color.black);
+			}
+			//Draw Indicators
 			g.drawLine(getGraphX(i*deltaX+minValueX), getGraphY(minValueY)-3, getGraphX(i*deltaX+minValueX), getGraphY(minValueY)+3);
 			float num = Math.round((i*deltaX+minValueX)*10.0f)/10.0f;
 			g.drawString(""+num, getGraphX(i*deltaX+minValueX), getGraphY(minValueY)+30);
@@ -257,6 +278,18 @@ public class JGraph extends JPanel{
 	public void setySeperator(int ySeperator) {
 		repaint = true;
 		this.ySeperator = ySeperator;
+	}
+
+	public void setShowGrid(boolean showGrid) {
+		this.showGrid = showGrid;
+	}
+
+	public void setDotSize(int dotSize) {
+		this.dotSize = dotSize;
+	}
+
+	public void setShowDots(boolean showDots) {
+		this.showDots = showDots;
 	}
 
 	public Color getColorID(int id){

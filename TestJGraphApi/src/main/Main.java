@@ -47,6 +47,10 @@ public class Main {
 		graph.setxSeperator(10);
 		graph.setySeperator(50);
 		
+		//graph.setShowGrid(false);
+		graph.setDotSize(5);
+		graph.setShowDots(true);
+		
 	
 		
 		for(int i = 0; i < 100; i++){
