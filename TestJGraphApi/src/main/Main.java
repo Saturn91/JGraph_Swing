@@ -21,9 +21,8 @@ public class Main {
 		frame.setResizable(false);
 		
 		JGraph graph = new JGraph("Temperature", 0, 0, 750, 850);
-		graph.setBorder(2);
 		
-		for(float x = -20; x < 20; x+=0.1f){
+		for(float x = -20; x < 2; x+=0.1f){
 			float y = (float) (Math.pow((x), 2));
 			for(int i = 0; i < 3; i++){
 				graph.addPoint(i, x-i, y);
@@ -47,6 +46,19 @@ public class Main {
 		graph.setMinValue(-9, 0);
 		graph.setxSeperator(10);
 		graph.setySeperator(50);
+		
+	
+		
+		for(int i = 0; i < 100; i++){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			graph.addPoint(1, i, i);
+			graph.update();
+		}
+		
 		
 	}
 

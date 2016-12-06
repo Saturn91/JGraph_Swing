@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import main.Point;
+
 public class JGraph extends JPanel{
 
 	private int x;
@@ -23,18 +25,18 @@ public class JGraph extends JPanel{
 
 	private int minValueX = 0;
 	private int maxValueX = 100;
-	
+
 	private int ArrowSize = 10;
 
 	private ArrayList<Point>[] points = new ArrayList[16];
 	private String[] graphNames = new String[16];
-	
+
 	private int titleTextSize = 25;
 	private int graphNameTextSize = 20;
-	
+
 	private String xAxisText = "x Axis";
 	private String yAxisText = "y Axis";
-	
+
 	private int xSeperator = 10;
 	private int ySeperator = 50;
 
@@ -72,7 +74,20 @@ public class JGraph extends JPanel{
 		return (int) (((x-(float) minValueX)*(float)(width-2*border))/ (float)(maxValueX - minValueX)) + border;	
 	}
 
-	public void paint(Graphics g){		//gets called automaticly!
+	private static boolean repaint = true;
+	private long lastTime = 0;
+	private long delta = 1000;	
+	public void update(){
+		long nowTime = System.currentTimeMillis();
+		if(nowTime - lastTime > delta){
+			validate();
+			repaint();
+			lastTime = nowTime;
+		}
+	}
+
+	public void paintComponent(Graphics g){		//gets called automaticly!
+
 		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
 
@@ -104,13 +119,13 @@ public class JGraph extends JPanel{
 
 		//Draw GraphBaseArrows
 		g.setColor(Color.black);
-		
+
 		g.drawLine( getGraphX(minValueX), getGraphY(minValueY), width-border, getGraphY(minValueY));
 		drawArrowHead(getGraphX(minValueX)+width-2*border, getGraphY(minValueY), g, 1);
-		
+
 		g.drawLine( getGraphX(minValueX), getGraphY(minValueY), getGraphX(minValueX), border);
 		drawArrowHead(getGraphX(minValueX), -getGraphY(maxValueY), g, 2);
-		
+
 		//Draw NumberIndicators
 		drawXIndicators(g);
 		drawYIndicators(g);
@@ -121,9 +136,8 @@ public class JGraph extends JPanel{
 		g.drawString(xAxisText, width/2-50, height-border/4);
 		g.drawString(yAxisText, (int) ((float)border*1.2f), border);
 		g.drawString(name, width/2-50, border);
-
-		repaint();
 	}
+
 
 	private void drawYIndicators(Graphics g) {
 		float deltaY = ((float) (maxValueY-minValueY)/ (float)(ySeperator));		
@@ -144,6 +158,7 @@ public class JGraph extends JPanel{
 	}
 
 	public boolean addPoint(int id, float x, float y){
+		repaint = true;
 		if(id < 16){
 			if(points[id] == null){
 				points[id] = new ArrayList<Point>();
@@ -154,10 +169,11 @@ public class JGraph extends JPanel{
 			System.err.println("com.saturn91.JGraph: addPoints: you can only add 16 Graphs (id=0...15)");
 			return false;
 		}
-		
+
 	}
 
-	public boolean setPointList(int id, ArrayList<Integer> x, ArrayList<Integer> y){
+	public boolean setPointList(int id, ArrayList<Float> x, ArrayList<Float> y){
+		repaint = true;
 		points[id].clear();
 		if(x.size() == y.size()){
 			for(int i = 0; i < x.size(); i++){
@@ -169,8 +185,9 @@ public class JGraph extends JPanel{
 			return false;
 		}
 	}
-	
+
 	public boolean addGraphName(int id, String name){
+		repaint = true;
 		if(id < 15){
 			graphNames[id] = name;
 			return true;
@@ -178,52 +195,63 @@ public class JGraph extends JPanel{
 			System.err.println("com.saturn91.JGraph addGraphName: you can only add 16 Graphs (id=0...15)");
 			return false;
 		}
-		
+
 	}
 
 	public void setMaxValue(int maxValueX, int maxValueY) {
+		repaint = true;
 		this.maxValueY = maxValueY;
 		this.maxValueX = maxValueX;
 	}
 
 	public void setMinValue(int minValueX, int minValueY) {
+		repaint = true;
 		this.minValueY = minValueY;
 		this.minValueX = minValueX;
 	}
 
 	public void setBorder(int border) {
+		repaint = true;
 		this.border = border;
 	}
-	
+
 	public void setGraphTextBorder(int graphTextBorder){
+		repaint = true;
 		this.graphTextsBorder = graphTextBorder;
 	}
 
 	public void setTitleTextSize(int titleTextSize) {
+		repaint = true;
 		this.titleTextSize = titleTextSize;
 	}
 
 	public void setGraphNameTextSize(int graphNameTextSize) {
+		repaint = true;
 		this.graphNameTextSize = graphNameTextSize;
 	}
 
 	public void setArrowSize(int arrowSize) {
+		repaint = true;
 		ArrowSize = arrowSize;
 	}	
 
 	public void setxAxisText(String xAxisText) {
+		repaint = true;
 		this.xAxisText = xAxisText;
 	}
 
 	public void setyAxisText(String yAxisText) {
+		repaint = true;
 		this.yAxisText = yAxisText;
 	}	
 
 	public void setxSeperator(int xSeperator) {
+		repaint = true;
 		this.xSeperator = xSeperator;
 	}
 
 	public void setySeperator(int ySeperator) {
+		repaint = true;
 		this.ySeperator = ySeperator;
 	}
 
@@ -263,7 +291,7 @@ public class JGraph extends JPanel{
 
 
 	}
-	
+
 	/**
 	 * 
 	 * @param x
@@ -273,25 +301,25 @@ public class JGraph extends JPanel{
 	 */
 	private void drawArrowHead(int x, int y, Graphics g, int direction){
 		switch (direction){
-		
+
 		case 1:
 			int[] xValues1 = {0+x, 0+x, 2*ArrowSize+x};
 			int[] yValues1 = {ArrowSize+y, -ArrowSize+y, 0+y};
 			g.fillPolygon(xValues1, yValues1, 3);
 			break;
-			
+
 		case 2:
 			int[] xValues2 = {-ArrowSize+x, ArrowSize+x, 0+x};
 			int[] yValues2 = {0+y, 0+y, -2*ArrowSize+y};
 			g.fillPolygon(xValues2, yValues2, 3);
 			break;
-			
+
 		case 3:
 			int[] xValues3 = {0+x, 0+x, -2*ArrowSize+x};
 			int[] yValues3 = {ArrowSize+y, -ArrowSize+y, 0+y};
 			g.fillPolygon(xValues3, yValues3, 3);
 			break;
-			
+
 		default:
 			int[] xValuesd = {-ArrowSize+x, ArrowSize+x, 0+x};
 			int[] yValuesd = {0+y, 0+y, 2*ArrowSize+y};
