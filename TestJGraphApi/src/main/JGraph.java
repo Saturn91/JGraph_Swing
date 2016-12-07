@@ -133,21 +133,31 @@ public class JGraph extends JPanel{
 
 		//Draw GraphBaseArrows
 		g.setColor(Color.black);
-
 		g.drawLine( getGraphX(minValueX), getGraphY(minValueY), width-border, getGraphY(minValueY));
-		drawArrowHead(getGraphX(minValueX)+width-2*border, getGraphY(minValueY), g, 1);
-
-		g.drawLine( getGraphX(minValueX), getGraphY(minValueY), getGraphX(minValueX), border);
-		drawArrowHead(getGraphX(minValueX), -getGraphY(maxValueY), g, 2);
-
+		
 		//Draw NumberIndicators
 		drawXIndicators(g);
 		drawYIndicators(g);
+				
+		//Draw 0 line in Y
+		if(minValueY < 0){
+			g.drawLine( getGraphX(minValueX), getGraphY(0), width-border, getGraphY(0));
+			drawArrowHead(getGraphX(minValueX)+width-2*border, getGraphY(0), g, 1);
+		}else{
+			g.drawLine( getGraphX(minValueX), getGraphY(minValueY), width-border, getGraphY(minValueY));
+			drawArrowHead(getGraphX(minValueX)+width-2*border, getGraphY(minValueY), g, 1);
+		}
+		
+
+		g.drawLine( getGraphX(minValueX), getGraphY(minValueY), getGraphX(minValueX), border);
+		drawArrowHead(getGraphX(minValueX), getGraphY(maxValueY), g, 2);
+
+		
 
 		//Draw texts and markers
 		g.setColor(Color.black);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, titleTextSize));
-		g.drawString(xAxisText, width/2-50, height-border/4);
+		g.drawString(xAxisText, width-border, getGraphY(0)-border/4);
 		g.drawString(yAxisText, (int) ((float)border*1.2f), border);
 		g.drawString(name, width/2-50, border);
 	}
