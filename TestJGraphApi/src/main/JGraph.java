@@ -374,4 +374,9 @@ public class JGraph extends JPanel{
 			break;				
 		}		
 	}
+	
+	public void clear(){
+		points= new ArrayList<ArrayList<Point>>();
+		initPointLists();
+	}
 }

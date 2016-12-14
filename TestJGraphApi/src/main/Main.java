@@ -43,9 +43,9 @@ public class Main {
 		
 	
 		
-		for(int i = 0; i < 100; i++){
+		for(int i = 0; i < 10; i++){
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -53,6 +53,19 @@ public class Main {
 			graph.update();
 		}
 		
+		System.out.println("Clear now!");
+		graph.clear();
+		graph.update();
+		
+		for(int i = 0; i < 10; i++){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			graph.addPoint(2, i, i);
+			graph.update();
+		}
 		
 	}
 
