@@ -105,6 +105,13 @@ public class JGraph extends JPanel{
 
 		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
+		
+		//Draw Frame
+		g.setColor(Color.white);
+		g.fillRect(0, 0, width, border);
+		g.fillRect(width-border, 0, border, height);
+		g.fillRect(0,0, border, height);
+		g.fillRect(0, height-border, width, border);
 
 		//Draw NumberIndicators
 		drawXIndicators(g);
@@ -128,12 +135,7 @@ public class JGraph extends JPanel{
 		}
 
 
-		//Draw Frame
-		g.setColor(Color.white);
-		g.fillRect(0, 0, width, border);
-		g.fillRect(width-border, 0, border, height);
-		g.fillRect(0,0, border, height);
-		g.fillRect(0, height-border, width, border);
+		
 
 		//Draw GraphBaseArrows
 		g.setColor(Color.black);
