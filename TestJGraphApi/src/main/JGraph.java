@@ -19,11 +19,11 @@ public class JGraph extends JPanel{
 	private int border = 20;
 	private int graphTextsBorder = 150;
 
-	private int maxValueY=100;
-	private int minValueY=0;
+	private float maxValueY=100;
+	private float minValueY=0;
 
-	private int minValueX = 0;
-	private int maxValueX = 100;
+	private float minValueX = 0;
+	private float maxValueX = 100;
 
 	private int ArrowSize = 10;
 
@@ -86,7 +86,7 @@ public class JGraph extends JPanel{
 	}
 
 	private int getGraphX(float x){
-		return (int) (((x-(float) minValueX)*(float)(width-2*border))/ (float)(maxValueX - minValueX)) + border;	
+		return (int) (((x- minValueX)*(float)(width-2*border))/ (float)(maxValueX - minValueX)) + border;	
 	}
 
 	private static boolean repaint = true;
@@ -233,13 +233,13 @@ public class JGraph extends JPanel{
 
 	}
 
-	public void setMaxValue(int maxValueX, int maxValueY) {
+	public void setMaxValue(float maxValueX, float maxValueY) {
 		repaint = true;
 		this.maxValueY = maxValueY;
 		this.maxValueX = maxValueX;
 	}
 
-	public void setMinValue(int minValueX, int minValueY) {
+	public void setMinValue(float minValueX, float minValueY) {
 		repaint = true;
 		this.minValueY = minValueY;
 		this.minValueX = minValueX;
@@ -375,6 +375,22 @@ public class JGraph extends JPanel{
 		}		
 	}
 	
+	public void setMaxValueY(float maxValueY) {
+		this.maxValueY = maxValueY;
+	}
+
+	public void setMinValueY(float minValueY) {
+		this.minValueY = minValueY;
+	}
+
+	public void setMinValueX(float minValueX) {
+		this.minValueX = minValueX;
+	}
+
+	public void setMaxValueX(float maxValueX) {
+		this.maxValueX = maxValueX;
+	}
+
 	public void clear(){
 		points= new ArrayList<ArrayList<Point>>();
 		initPointLists();
