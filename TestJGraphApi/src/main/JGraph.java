@@ -39,7 +39,7 @@ public class JGraph extends JPanel{
 
 	private int xSeperator = 10;
 	private int ySeperator = 50;
-	
+
 	private boolean showGrid = true;
 	private int dotSize = 4;
 	private boolean showDots = true;
@@ -53,7 +53,7 @@ public class JGraph extends JPanel{
 		setBounds(x, y, width, height);
 		initPointLists();
 	}
-	
+
 	private void initPointLists(){
 		for(int i = 0; i < maxGraphs; i++){
 			points.add(new ArrayList<Point>());
@@ -106,6 +106,10 @@ public class JGraph extends JPanel{
 		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
 
+		//Draw NumberIndicators
+		drawXIndicators(g);
+		drawYIndicators(g);
+
 		//Draw Graphs
 		g.setColor(Color.red);
 		int graphCounter = 0;
@@ -134,11 +138,9 @@ public class JGraph extends JPanel{
 		//Draw GraphBaseArrows
 		g.setColor(Color.black);
 		g.drawLine( getGraphX(minValueX), getGraphY(minValueY), width-border, getGraphY(minValueY));
-		
-		//Draw NumberIndicators
-		drawXIndicators(g);
-		drawYIndicators(g);
-				
+
+
+
 		//Draw 0 line in Y
 		if(minValueY < 0){
 			g.drawLine( getGraphX(minValueX), getGraphY(0), width-border, getGraphY(0));
@@ -147,12 +149,12 @@ public class JGraph extends JPanel{
 			g.drawLine( getGraphX(minValueX), getGraphY(minValueY), width-border, getGraphY(minValueY));
 			drawArrowHead(getGraphX(minValueX)+width-2*border, getGraphY(minValueY), g, 1);
 		}
-		
+
 
 		g.drawLine( getGraphX(minValueX), getGraphY(minValueY), getGraphX(minValueX), border);
 		drawArrowHead(getGraphX(minValueX), getGraphY(maxValueY), g, 2);
 
-		
+
 
 		//Draw texts and markers
 		g.setColor(Color.black);
@@ -374,7 +376,7 @@ public class JGraph extends JPanel{
 			break;				
 		}		
 	}
-	
+
 	public void setMaxValueY(float maxValueY) {
 		this.maxValueY = maxValueY;
 	}
