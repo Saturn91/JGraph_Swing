@@ -43,6 +43,7 @@ public class JGraph extends JPanel{
 	private boolean showGrid = true;
 	private int dotSize = 4;
 	private boolean showDots = true;
+	private int round = 1;	
 
 	public JGraph(String name, int x, int y, int width, int height) {
 		this.name = name;
@@ -91,7 +92,7 @@ public class JGraph extends JPanel{
 
 	private static boolean repaint = true;
 	private long lastTime = 0;
-	private long delta = 1000;	
+	private long delta = 1000;
 	public void update(){
 		long nowTime = System.currentTimeMillis();
 		if(nowTime - lastTime > delta){
@@ -105,17 +106,10 @@ public class JGraph extends JPanel{
 
 		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
-		
-		//Draw Frame
-		g.setColor(Color.white);
-		g.fillRect(0, 0, width, border);
-		g.fillRect(width-border, 0, border, height);
-		g.fillRect(0,0, border, height);
-		g.fillRect(0, height-border, width, border);
 
 		//Draw NumberIndicators
-		drawXIndicators(g);
-		drawYIndicators(g);
+		drawXGrid(g);
+		drawYGrid(g);
 
 		//Draw Graphs
 		g.setColor(Color.red);
@@ -134,13 +128,20 @@ public class JGraph extends JPanel{
 			}			
 		}
 
-
-		
+		//Draw Frame
+		g.setColor(Color.white);
+		g.fillRect(0, 0, width, border);
+		g.fillRect(width-border, 0, border, height);
+		g.fillRect(0,0, border, height);
+		g.fillRect(0, height-border, width, border);
 
 		//Draw GraphBaseArrows
 		g.setColor(Color.black);
 		g.drawLine( getGraphX(minValueX), getGraphY(minValueY), width-border, getGraphY(minValueY));
-
+		
+		//Draw Axistext
+		drawXTexts(g);
+		drawYTexts(g);
 
 
 		//Draw 0 line in Y
@@ -167,7 +168,7 @@ public class JGraph extends JPanel{
 	}
 
 
-	private void drawYIndicators(Graphics g) {
+	private void drawYGrid(Graphics g) {
 		float deltaY = ((float) (maxValueY-minValueY)/ (float)(ySeperator));		
 		for(int i = 0; i < ySeperator+1; i++){
 			//draw Grid
@@ -176,14 +177,23 @@ public class JGraph extends JPanel{
 				g.drawLine(getGraphX(minValueX), getGraphY(deltaY*i+minValueY), getGraphX(maxValueX), getGraphY(deltaY*i+minValueY));
 				g.setColor(Color.black);
 			}
-			//Draw Indicators
-			g.drawLine(getGraphX(minValueX)-3, getGraphY(deltaY*i+minValueY), getGraphX(minValueX)+3, getGraphY(deltaY*i+minValueY));
-			float num = Math.round((i*deltaY+minValueY)*10.0f)/10.0f;
-			g.drawString(""+num, getGraphX(minValueX)-40, getGraphY(deltaY*i+minValueY));
 		}		
 	}
 
-	private void drawXIndicators(Graphics g) {
+	private void drawYTexts(Graphics g){
+		float roundIndex = (float) Math.pow(10, round);
+		float deltaY = ((float) (maxValueY-minValueY)/ (float)(ySeperator));
+		for(int i = 0; i < ySeperator+1; i++){
+			//Draw Indicators
+			g.drawLine(getGraphX(minValueX)-3, getGraphY(deltaY*i+minValueY), getGraphX(minValueX)+3, getGraphY(deltaY*i+minValueY));
+
+			float num = Math.round((i*deltaY+minValueY)*roundIndex)/roundIndex;
+			g.drawString(""+num, getGraphX(minValueX)-40, getGraphY(deltaY*i+minValueY));
+		}
+	}
+
+	private void drawXGrid(Graphics g) {
+		float roundIndex = (float) Math.pow(10, round);
 		float deltaX = ((float) (maxValueX-minValueX)/ (float)(xSeperator));
 		for(int i = 0; i < xSeperator+1; i++){
 			//draw Grid
@@ -194,7 +204,18 @@ public class JGraph extends JPanel{
 			}
 			//Draw Indicators
 			g.drawLine(getGraphX(i*deltaX+minValueX), getGraphY(minValueY)-3, getGraphX(i*deltaX+minValueX), getGraphY(minValueY)+3);
-			float num = Math.round((i*deltaX+minValueX)*10.0f)/10.0f;
+			float num = Math.round((i*deltaX+minValueX)*roundIndex)/roundIndex;
+			g.drawString(""+num, getGraphX(i*deltaX+minValueX), getGraphY(minValueY)+30);
+		}
+	}
+	
+	private void drawXTexts(Graphics g){
+		float roundIndex = (float) Math.pow(10, round);
+		float deltaX = ((float) (maxValueX-minValueX)/ (float)(xSeperator));
+		for(int i = 0; i < xSeperator+1; i++){
+			//Draw Indicators
+			g.drawLine(getGraphX(i*deltaX+minValueX), getGraphY(minValueY)-3, getGraphX(i*deltaX+minValueX), getGraphY(minValueY)+3);
+			float num = Math.round((i*deltaX+minValueX)*roundIndex)/roundIndex;
 			g.drawString(""+num, getGraphX(i*deltaX+minValueX), getGraphY(minValueY)+30);
 		}
 	}
@@ -398,5 +419,9 @@ public class JGraph extends JPanel{
 	public void clear(){
 		points= new ArrayList<ArrayList<Point>>();
 		initPointLists();
+	}
+
+	public void setRound(int round) {
+		this.round = round;
 	}
 }
