@@ -45,6 +45,9 @@ public class JGraph extends JPanel{
 	private boolean showDots = true;
 	private int round = 1;	
 
+	private float xShift = 1.0f;
+	private float yShift = 1.0f;
+	
 	public JGraph(String name, int x, int y, int width, int height) {
 		this.name = name;
 		this.x = x;
@@ -169,7 +172,8 @@ public class JGraph extends JPanel{
 
 
 	private void drawYGrid(Graphics g) {
-		float deltaY = ((float) (maxValueY-minValueY)/ (float)(ySeperator));		
+		float deltaY = ((float) (maxValueY-minValueY)/ (float)(ySeperator));	
+		yShift = deltaY;
 		for(int i = 0; i < ySeperator+1; i++){
 			//draw Grid
 			if(showGrid){
@@ -195,6 +199,7 @@ public class JGraph extends JPanel{
 	private void drawXGrid(Graphics g) {
 		float roundIndex = (float) Math.pow(10, round);
 		float deltaX = ((float) (maxValueX-minValueX)/ (float)(xSeperator));
+		xShift = deltaX;
 		for(int i = 0; i < xSeperator+1; i++){
 			//draw Grid
 			if(showGrid){
@@ -423,5 +428,21 @@ public class JGraph extends JPanel{
 
 	public void setRound(int round) {
 		this.round = round;
+	}
+	
+	public void shiftleft(int units) {
+		setMinValueX(minValueX-xShift*units); setMaxValueX(maxValueX-xShift*units);
+	}
+	
+	public void shiftRight(int units) {
+		setMinValueX(minValueX+xShift*units); setMaxValueX(maxValueX+xShift*units);
+	}
+	
+	public void shiftUp(int units) {
+		setMinValueY(minValueY+yShift*units); setMaxValueY(maxValueY+yShift*units);
+	}
+	
+	public void shiftDown(int units) {
+		setMinValueY(minValueY-yShift*units); setMaxValueY(maxValueY-yShift*units);
 	}
 }

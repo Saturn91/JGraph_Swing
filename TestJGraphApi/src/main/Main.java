@@ -46,6 +46,8 @@ public class Main {
 		for(int i = 0; i < 10; i++){
 			try {
 				Thread.sleep(500);
+				graph.shiftUp(1);
+				graph.update();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -66,7 +68,6 @@ public class Main {
 			graph.addPoint(2, i, i);
 			graph.update();
 		}
-		
 	}
 
 }
