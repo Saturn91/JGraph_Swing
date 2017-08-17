@@ -432,17 +432,37 @@ public class JGraph extends JPanel{
 	
 	public void shiftleft(int units) {
 		setMinValueX(minValueX-xShift*units); setMaxValueX(maxValueX-xShift*units);
+		validate();
+		repaint();
 	}
 	
 	public void shiftRight(int units) {
 		setMinValueX(minValueX+xShift*units); setMaxValueX(maxValueX+xShift*units);
+		validate();
+		repaint();
 	}
 	
 	public void shiftUp(int units) {
 		setMinValueY(minValueY+yShift*units); setMaxValueY(maxValueY+yShift*units);
+		validate();
+		repaint();
 	}
 	
 	public void shiftDown(int units) {
 		setMinValueY(minValueY-yShift*units); setMaxValueY(maxValueY-yShift*units);
+		validate();
+		repaint();
+	}
+	
+	public void zoomX(float zoom) {
+		setMaxValueX(((float) xSeperator)*zoom + minValueX); 
+		validate();
+		repaint();
+	}
+	
+	public void zoomY(float zoom) {
+		setMaxValueY(((float) ySeperator)*zoom + minValueY); 
+		validate();
+		repaint();
 	}
 }
