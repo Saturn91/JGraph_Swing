@@ -1,4 +1,4 @@
-package main;
+package com.saturn91.jgraph;
 
 class Point {
 	

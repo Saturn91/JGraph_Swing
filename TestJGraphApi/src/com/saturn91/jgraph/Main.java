@@ -1,4 +1,4 @@
-package main;
+package com.saturn91.jgraph;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
