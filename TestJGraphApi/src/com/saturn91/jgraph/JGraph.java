@@ -165,7 +165,7 @@ public class JGraph extends JPanel{
 		//Draw texts and markers
 		g.setColor(Color.black);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, titleTextSize));
-		g.drawString(xAxisText, width-border, getGraphY(0)-border/4);
+		g.drawString(xAxisText, width-border, getGraphY(minValueY)-border/4);
 		g.drawString(yAxisText, (int) ((float)border*1.2f), border);
 		g.drawString(name, width/2-50, border);
 	}
