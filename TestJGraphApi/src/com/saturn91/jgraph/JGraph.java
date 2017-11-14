@@ -465,4 +465,9 @@ public class JGraph extends JPanel{
 		validate();
 		repaint();
 	}
+	
+	public void setGraphName(String name) {
+		this.name = name;
+		repaint();
+	}
 }
