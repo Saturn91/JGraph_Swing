@@ -2,6 +2,7 @@ This Project is a Java - Swing component which allows the user to draw graphs fo
 
 Installation in other Maven-Project (pom.xml) as follows:
 
+```
 1. Add Plugin:
 
 <repository>
@@ -16,4 +17,4 @@ Installation in other Maven-Project (pom.xml) as follows:
     <artifactId>JGraph_Swing</artifactId>
     <version>v1.0</version>
 </dependency>
-
+```
