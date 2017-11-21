@@ -15,6 +15,6 @@ Installation in other Maven-Project (pom.xml) as follows:
 <dependency>
     <groupId>com.github.Saturn91</groupId>
     <artifactId>JGraph_Swing</artifactId>
-    <version>v1.0</version>
+    <version>v2.0</version>
 </dependency>
 ```
